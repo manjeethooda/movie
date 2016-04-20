@@ -12,7 +12,7 @@ public class GlobalDataContainer {
 
     //ViewPager
     public static int num_tabs = 3;
-    public static String[] tabs = {"Search", "New Movies", "Upcoming"};
+    public static String[] tabs = {"Search", "In Theatres", "Upcoming"};
 
     //Movies
     public static final String fetching = "Fetching Data... Please Wait";
@@ -23,7 +23,10 @@ public class GlobalDataContainer {
     public static String UPCOMING_MOVIES_ARRAY_LIST_EXTRA = "Upcoming_Movies";
     public static String UPCOMING_MOVIES_URL =
             "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=" + API_KEY_RT +"&page_limit=" + limit;
-
+    public static final String SEARCH_MOVIES_ARRAY_LIST_EXTRA = "search_movies_list";
+    public static final String SEARCH_MOVIES_URL =
+            "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey="+ API_KEY_RT +"&q=";
+    public static final String SEARCH_MOVIES_NAME = "search_movie_name";
 
     //keys
     public static final String KEY_MOVIES="movies";

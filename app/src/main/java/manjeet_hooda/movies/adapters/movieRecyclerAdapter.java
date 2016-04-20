@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import manjeet_hooda.movies.R;
@@ -36,7 +37,9 @@ public class movieRecyclerAdapter extends RecyclerView.Adapter<movieRecyclerAdap
         private Context mContext;
         private Movie movie_item;
         private VolleySingleton volleySingleton;
+        private SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy");
         private ImageLoader imageLoader;
+        private String date;
 
         public movieRecyclerHolder(View itemView, Context context) {
             super(itemView);
@@ -52,7 +55,8 @@ public class movieRecyclerAdapter extends RecyclerView.Adapter<movieRecyclerAdap
 
         public void bindMovie(Movie movie) {
             mTitle.setText(movie.getmTitle());
-            mDate.setText(movie.getmDate().toString());
+            date = format.format(movie.getmDate());
+            mDate.setText(date);
             mScore.setRating(movie.getmAudienceScore() / 20.0f);
             String urlThumb = movie.getmUrlThumbnail();
             if(urlThumb != null){
