@@ -28,6 +28,8 @@ import manjeet_hooda.movies.adapters.movieRecyclerAdapter;
 import manjeet_hooda.movies.global.GlobalDataContainer;
 import manjeet_hooda.movies.global.Movie;
 import manjeet_hooda.movies.global.MyApplication;
+import manjeet_hooda.movies.global.NoConnectionDialog;
+import manjeet_hooda.movies.network.ConnectionUtil;
 import manjeet_hooda.movies.network.Json.JsonRequest;
 /**
  * Created by manjeet on 16/4/16.
@@ -43,6 +45,8 @@ public class Search extends Fragment implements MoviesLoadedListener, ListEndLis
     private String movieName;
     private RelativeLayout mRelativeLayout;
     private EditText mEdittext;
+    private Button mButton;
+    private int count;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,18 +64,21 @@ public class Search extends Fragment implements MoviesLoadedListener, ListEndLis
     }
 
     private void setupButton(){
+        count = 1;
         mEdittext = (EditText) view.findViewById(R.id.search_movie);
-        Button mButton = (Button) view.findViewById(R.id.search_movie_button);
+        mButton = (Button) view.findViewById(R.id.search_movie_button);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 movieName = mEdittext.getText().toString();
+                movieName = String.format(movieName.trim());
                 mRelativeLayout.setVisibility(View.VISIBLE);
-                if (movieName.length() == 0) {
+                if (movieName.trim().length() == 0) {
                     mRelativeLayout.setVisibility(View.INVISIBLE);
-                    return;
+                }else {
+                    count++;
+                    searchMovie(movieName);
                 }
-                searchMovie(movieName);
             }
         });
 
@@ -106,11 +113,20 @@ public class Search extends Fragment implements MoviesLoadedListener, ListEndLis
     }
 
     public void searchMovie(String movName){
-        mSearchJsonRequest  = new JsonRequest(searchList,
-                GlobalDataContainer.SEARCH_MOVIES_URL+ movName,
-                false,this,
-                2);
-        mSearchJsonRequest.execute();
+        if(ConnectionUtil.hasDataConnection(getActivity())) {
+            Toast.makeText(getActivity(), "Fetching Data...", Toast.LENGTH_SHORT).show();
+            mSearchJsonRequest = new JsonRequest(searchList,
+                    String.format("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=&q=" + movName),
+                    false, this,
+                    2);
+            mSearchJsonRequest.execute();
+            if(count %2 == 0){
+               // mButton.performClick();
+            }
+        }else
+        {
+            NoConnectionDialog.showDialog(getActivity());
+        }
         //searchProgress.setVisibility(View.VISIBLE);
     }
 
