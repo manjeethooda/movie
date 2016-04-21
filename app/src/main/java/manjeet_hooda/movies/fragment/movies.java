@@ -1,5 +1,7 @@
 package manjeet_hooda.movies.fragment;
 
+import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -18,6 +21,8 @@ import manjeet_hooda.movies.adapters.movieRecyclerAdapter;
 import manjeet_hooda.movies.global.GlobalDataContainer;
 import manjeet_hooda.movies.global.Movie;
 import manjeet_hooda.movies.global.MyApplication;
+import manjeet_hooda.movies.global.NoConnectionDialog;
+import manjeet_hooda.movies.network.ConnectionUtil;
 import manjeet_hooda.movies.network.Json.JsonRequest;
 
 /**
@@ -32,13 +37,20 @@ public class movies extends Fragment implements MoviesLoadedListener, ListEndLis
     private LinearLayoutManager mLayoutManager;
     private JsonRequest mTheatreJsonRequest;
     private RelativeLayout progressBar;
+    private boolean dataConnection;
+    private Context mContext;
+    private Bundle savedInstanceBundle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_theatre,container, false);
+        mContext = getActivity();
+        savedInstanceBundle = savedInstanceState;
         progressBar = (RelativeLayout)view.findViewById(R.id.loadingPanel);
+        dataConnection = ConnectionUtil.hasDataConnection(getActivity());
         setupRecyclerView();
         getList(savedInstanceState);
+        setupFloatingRefresh();
         return view;
     }
 
@@ -48,6 +60,23 @@ public class movies extends Fragment implements MoviesLoadedListener, ListEndLis
         mRecyclerView.setLayoutManager(mLayoutManager);
         theatreAdapter = new movieRecyclerAdapter(getActivity());
         mRecyclerView.setAdapter(theatreAdapter);
+    }
+
+    private void setupFloatingRefresh(){
+        FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    if(!ConnectionUtil.hasDataConnection(mContext))
+                        NoConnectionDialog.showDialog(mContext);
+                    else {
+                        getList(savedInstanceBundle);
+                        theatreAdapter.setMovies_list(theatreList);
+                        Toast.makeText(mContext, "Fetching Data...", Toast.LENGTH_LONG).show();
+                    }
+            }
+        });
+
     }
 
     public void getList(Bundle savedInstanceState){

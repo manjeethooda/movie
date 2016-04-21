@@ -14,6 +14,8 @@ import manjeet_hooda.movies.R;
 import manjeet_hooda.movies.adapters.MyViewPager;
 import manjeet_hooda.movies.animations.AnimationUtils;
 import manjeet_hooda.movies.global.GlobalDataContainer;
+import manjeet_hooda.movies.global.NoConnectionDialog;
+import manjeet_hooda.movies.network.ConnectionUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(!ConnectionUtil.hasDataConnection(this))
+            NoConnectionDialog.showDialog(this);
+
         setupToolbar();
         setupTabs();
         setupPager();
