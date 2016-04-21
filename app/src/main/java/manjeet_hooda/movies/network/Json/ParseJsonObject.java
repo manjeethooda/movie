@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 import manjeet_hooda.movies.global.GlobalDataContainer;
 import manjeet_hooda.movies.global.Movie;
@@ -52,6 +53,11 @@ public class ParseJsonObject {
                     if(objectPosters.has(GlobalDataContainer.KEY_THUMBNAIL)){
                         URLThumbnail = objectPosters.getString(GlobalDataContainer.KEY_THUMBNAIL);
                     }
+                    JSONObject link = currentMovie.getJSONObject(GlobalDataContainer.KEY_LINKS);
+                    String self_link = "http://www.rottentomatoes.com";
+                    if(link.has(GlobalDataContainer.KEY_ALTERNATE)) {
+                        self_link = link.getString(GlobalDataContainer.KEY_ALTERNATE);
+                    }
 
                     Movie movie_item = new Movie();
                     movie_item.setmTitle(title);
@@ -60,6 +66,7 @@ public class ParseJsonObject {
                     movie_item.setmAudienceScore(audience_score);
                     movie_item.setmSynopsis(synopsis);
                     movie_item.setmUrlThumbnail(URLThumbnail);
+                    movie_item.setmUrlSelf(self_link);
                     movieArrayList.add(movie_item);
                 }
             }

@@ -14,6 +14,10 @@ public class GlobalDataContainer {
     public static int num_tabs = 3;
     public static String[] tabs = {"Search", "In Theatres", "Upcoming"};
 
+    //webview
+    public static final String MOVIE_URI = "movie_URL";
+    public static final String MOVIE_TITLE = "movie_title";
+
     //Movies
     public static final String fetching = "Fetching Data... Please Wait";
     public static int limit = 30;
@@ -44,5 +48,6 @@ public class GlobalDataContainer {
     public static final String KEY_CAST="cast";
     public static final String KEY_REVIEWS="reviews";
     public static final String KEY_SIMILAR="similar";
+    public static final String KEY_ALTERNATE="alternate";
 
 }

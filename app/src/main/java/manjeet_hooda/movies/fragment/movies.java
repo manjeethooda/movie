@@ -80,11 +80,7 @@ public class movies extends Fragment implements MoviesLoadedListener, ListEndLis
     }
 
     public void getList(Bundle savedInstanceState){
-        if (savedInstanceState != null) {
-            theatreList = savedInstanceState.getParcelableArrayList(GlobalDataContainer.MOVIES_ARRAY_LIST_EXTRA);
-            theatreAdapter.setMovies_list(theatreList);
-            progressBar.setVisibility(View.GONE);
-        } else {
+
             theatreList = MyApplication.getadapter().readMovies(0);
             if (theatreList.isEmpty()) {
                 mTheatreJsonRequest  = new JsonRequest(theatreList,
@@ -97,7 +93,7 @@ public class movies extends Fragment implements MoviesLoadedListener, ListEndLis
                 theatreAdapter.setMovies_list(theatreList);
                 progressBar.setVisibility(View.GONE);
             }
-        }
+
     }
 
     @Override

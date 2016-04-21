@@ -1,6 +1,7 @@
 package manjeet_hooda.movies.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import manjeet_hooda.movies.R;
+import manjeet_hooda.movies.activity.WebViewActivity;
 import manjeet_hooda.movies.animations.AnimationUtils;
+import manjeet_hooda.movies.global.GlobalDataContainer;
 import manjeet_hooda.movies.global.Movie;
 import manjeet_hooda.movies.network.VolleySingleton;
 
@@ -54,6 +57,7 @@ public class movieRecyclerAdapter extends RecyclerView.Adapter<movieRecyclerAdap
         }
 
         public void bindMovie(Movie movie) {
+            movie_item = movie;
             mTitle.setText(movie.getmTitle());
             date = format.format(movie.getmDate());
             mDate.setText(date);
@@ -76,6 +80,10 @@ public class movieRecyclerAdapter extends RecyclerView.Adapter<movieRecyclerAdap
 
         @Override
         public void onClick(View view) {
+            Intent i = new Intent(mContext, WebViewActivity.class);
+            i.putExtra(GlobalDataContainer.MOVIE_URI, movie_item.getmUrlSelf());
+            i.putExtra(GlobalDataContainer.MOVIE_TITLE, movie_item.getmTitle());
+            mContext.startActivity(i);
         }
     };
 

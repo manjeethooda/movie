@@ -80,11 +80,6 @@ public class Upcoming extends Fragment implements MoviesLoadedListener, ListEndL
     }
 
     public void getList(Bundle savedInstanceState){
-        if (savedInstanceState != null) {
-            upcomingList = savedInstanceState.getParcelableArrayList(GlobalDataContainer.UPCOMING_MOVIES_ARRAY_LIST_EXTRA);
-            upcomingAdapter.setMovies_list(upcomingList);
-            UprogressBar.setVisibility(View.GONE);
-        } else {
             upcomingList = MyApplication.getadapter().readMovies(1);
             if (upcomingList.isEmpty()) {
                 mUpcomingJsonRequest  = new JsonRequest(upcomingList,
@@ -97,7 +92,7 @@ public class Upcoming extends Fragment implements MoviesLoadedListener, ListEndL
                 upcomingAdapter.setMovies_list(upcomingList);
                 UprogressBar.setVisibility(View.GONE);
             }
-        }
+
     }
 
     @Override
