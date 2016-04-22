@@ -72,7 +72,7 @@ public class movies extends Fragment implements MoviesLoadedListener, ListEndLis
                     else {
                         getList(savedInstanceBundle);
                         theatreAdapter.setMovies_list(theatreList);
-                        Toast.makeText(mContext, "Fetching Data...", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Fetching Data...", Toast.LENGTH_SHORT).show();
                     }
             }
         });

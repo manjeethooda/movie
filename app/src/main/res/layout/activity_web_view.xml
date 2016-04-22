@@ -23,18 +23,9 @@
             </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
-    <ProgressBar
-    android:id="@+id/webview_progress_bar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:visibility="gone"
-    style="?android:attr/progressBarStyleHorizontal"
-    android:background="?attr/colorPrimary"/>
-
 
     <WebView  android:id="@+id/webView"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true" />

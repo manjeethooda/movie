@@ -63,7 +63,7 @@ public class Upcoming extends Fragment implements MoviesLoadedListener, ListEndL
                 else {
                     getList(savedInstanceBundle);
                     upcomingAdapter.setMovies_list(upcomingList);
-                    Toast.makeText(mContext, "Fetching Data...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Fetching Data...", Toast.LENGTH_SHORT).show();
                 }
             }
         });

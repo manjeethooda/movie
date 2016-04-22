@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         setupTabs();
         setupPager();
+        mViewPager.setCurrentItem(1);
     }
 
     private void setupTabs() {

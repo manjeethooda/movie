@@ -1,5 +1,6 @@
 package manjeet_hooda.movies.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -47,6 +49,7 @@ public class Search extends Fragment implements MoviesLoadedListener, ListEndLis
     private EditText mEdittext;
     private Button mButton;
     private int count;
+    private boolean onMoviesLoadedCalled;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +79,8 @@ public class Search extends Fragment implements MoviesLoadedListener, ListEndLis
                 if (movieName.trim().length() == 0) {
                     mRelativeLayout.setVisibility(View.INVISIBLE);
                 }else {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mEdittext.getWindowToken(), 0);
                     count++;
                     searchMovie(movieName);
                 }
@@ -114,18 +119,20 @@ public class Search extends Fragment implements MoviesLoadedListener, ListEndLis
 
     public void searchMovie(String movName){
         if(ConnectionUtil.hasDataConnection(getActivity())) {
-            Toast.makeText(getActivity(), "Fetching Data...", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Fetching Data...", Toast.LENGTH_SHORT).show();
+            onMoviesLoadedCalled = false;
             mSearchJsonRequest = new JsonRequest(searchList,
                     String.format("http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=&q=" + movName),
                     false, this,
                     2);
             mSearchJsonRequest.execute();
             if(count %2 == 0){
-               // mButton.performClick();
+               mButton.performClick();
             }
         }else
         {
             NoConnectionDialog.showDialog(getActivity());
+            mRelativeLayout.setVisibility(View.INVISIBLE);
         }
         //searchProgress.setVisibility(View.VISIBLE);
     }
@@ -139,8 +146,15 @@ public class Search extends Fragment implements MoviesLoadedListener, ListEndLis
 
     @Override
     public void onMoviesLoaded(ArrayList<Movie> listMovies) {
-        searchAdapter.setMovies_list(listMovies);
-        mRelativeLayout.setVisibility(View.INVISIBLE);
+        if(!onMoviesLoadedCalled) {
+            if(listMovies.isEmpty()){
+                Toast.makeText(getActivity(),"No Movie Found",Toast.LENGTH_LONG).show();
+            }
+            searchAdapter.setMovies_list(listMovies);
+            mRelativeLayout.setVisibility(View.INVISIBLE);
+            onMoviesLoadedCalled = true;
+            mRecyclerView.scrollToPosition(0);
+        }
         //searchProgress.setVisibility(View.GONE);
     }
 

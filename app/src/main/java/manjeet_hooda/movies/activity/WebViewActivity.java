@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -22,7 +23,6 @@ public class WebViewActivity extends AppCompatActivity {
 
     private String  mUrl;
     private WebView mWebView;
-    private ProgressBar mProgressBar;
     private static String movieTitle;
     private Toolbar mToolbar;
 
@@ -32,7 +32,6 @@ public class WebViewActivity extends AppCompatActivity {
         mUrl = getIntent().getExtras().getString(GlobalDataContainer.MOVIE_URI);
         movieTitle = getIntent().getExtras().getString(GlobalDataContainer.MOVIE_TITLE);
 
-        Toast.makeText(this, mUrl, Toast.LENGTH_LONG).show();
         setContentView(R.layout.activity_web_view);
         mToolbar = (Toolbar)findViewById(R.id.webViewToolbar);
         setSupportActionBar(mToolbar);
@@ -43,21 +42,19 @@ public class WebViewActivity extends AppCompatActivity {
         }catch (NullPointerException e){
 
         }
-        mProgressBar =  (ProgressBar)findViewById(R.id.webview_progress_bar);
-        mProgressBar.setMax(100);
         mWebView = (WebView) findViewById(R.id.webView);
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView webView, int newProgress) {
-                if (newProgress == 100) {
-                    mProgressBar.setVisibility(View.GONE);
-                } else {
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    mProgressBar.setProgress(newProgress);
-                }
-            }
-        });
         mWebView.loadUrl(mUrl);
+        Toast.makeText(this,"Loading... ",Toast.LENGTH_LONG).show();
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }
