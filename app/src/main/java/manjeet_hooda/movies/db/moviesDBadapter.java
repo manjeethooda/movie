@@ -48,12 +48,13 @@ public class moviesDBadapter extends moviesDbHelper {
             contentValues.put(movieSchema.COLUMN_URL_REVIEWS, movie.getmUrlReviews());
             contentValues.put(movieSchema.COLUMN_URL_SIMILAR, movie.getmUrlSimiliar());
 
+            if(tableNum != 2) {
+                try {
+                    mDatabase.insert(table, null, contentValues);
+                    //MyApplication.display("list_inserted" + listMovies.size());
+                } catch (SQLException e) {
 
-            try{
-                mDatabase.insert(table, null, contentValues);
-                //MyApplication.display("list_inserted" + listMovies.size());
-            }catch (SQLException e){
-
+                }
             }
 
         }
