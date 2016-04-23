@@ -6,12 +6,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     >
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:elevation="20dp"
+        android:id="@+id/webviewAppToolbar"
         android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
@@ -24,11 +24,16 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <WebView  android:id="@+id/webView"
-        android:layout_marginTop="8dp"
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/webProgressBar"
+        android:layout_below="@id/webviewAppToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true" />
-        />
+        android:layout_height="wrap_content" />
+
+    <WebView  android:id="@+id/webView"
+        android:layout_below="@id/webProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
