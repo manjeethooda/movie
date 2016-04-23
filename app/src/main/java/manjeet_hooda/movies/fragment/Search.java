@@ -74,7 +74,7 @@ public class Search extends Fragment implements MoviesLoadedListener, ListEndLis
             @Override
             public void onClick(View v) {
                 movieName = mEdittext.getText().toString();
-                movieName = String.format(movieName.trim());
+                movieName = String.format(movieName.replaceAll("\\s+","+"));
                 mRelativeLayout.setVisibility(View.VISIBLE);
                 if (movieName.trim().length() == 0) {
                     mRelativeLayout.setVisibility(View.INVISIBLE);
